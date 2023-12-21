@@ -2,7 +2,7 @@
 using Autofac;
 using Module = Autofac.Module;
 
-namespace Application
+namespace Infrastructure
 {
     public class InfrastructureModule: Module
     {

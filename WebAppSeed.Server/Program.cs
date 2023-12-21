@@ -1,5 +1,7 @@
+using Application;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Infrastructure;
 
 namespace API
 {
@@ -15,11 +17,13 @@ namespace API
             builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
             {
                 builder.RegisterModule(new APIModule());
+                builder.RegisterModule(new ApplicationModule());
+                builder.RegisterModule(new InfrastructureModule());
             });
 
             // Add services to the container.
-
             builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -37,12 +41,9 @@ namespace API
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
-
             app.MapControllers();
-
             app.MapFallbackToFile("/index.html");
 
             app.Run();

@@ -10,7 +10,6 @@ namespace Application
         {
             var assembly = Assembly.GetExecutingAssembly();
             builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("Service")).AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("Data")).AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Infrastructure
         {
             get
             {
-                return Const.Summaries;
+                return WeatherSummary.GetAll<WeatherSummary>().Select(x=>x.ToString()).ToArray();
             }
         }
     }

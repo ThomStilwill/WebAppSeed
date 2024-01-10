@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using API.Orchestrators;
 using Domain.Weather;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
@@ -18,9 +21,9 @@ namespace API.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<Forecast> Get()
+        public async Task<IEnumerable<Forecast>> Get()
         {
-            return weatherOrchestrator.GetWeather();
+            return await weatherOrchestrator.GetWeather();
         }
     }
 }

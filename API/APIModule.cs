@@ -11,7 +11,10 @@ namespace API
         protected override void Load(ContainerBuilder builder)
         {
             var assembly = Assembly.GetExecutingAssembly();
+
             builder.RegisterType<LoggerIntercepter>();
+
+
             builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("Orchestrator"))
                 .AsImplementedInterfaces()
                 .EnableInterfaceInterceptors()
@@ -19,5 +22,6 @@ namespace API
                 .InstancePerLifetimeScope();
 
         }
+
     }
 }

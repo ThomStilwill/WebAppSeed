@@ -1,4 +1,5 @@
-﻿using Domain.Weather;
+﻿using System.Collections.Generic;
+using Domain.Weather;
 
 namespace Infrastructure
 {

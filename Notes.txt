@@ -1,0 +1,17 @@
+
+
+To initialize EF Database:
+
+
+From solutions base folder:
+
+dotnet ef migrations add InitialMigration --startup-project .\API\API.csproj --project .\Infrastructure\Infrastructure.csproj
+dotnet ef migrations remove  --startup-project .\API\API.csproj --project .\Infrastructure\Infrastructure.csproj
+
+
+
+dotnet ef migrations add {migration name} --startup-project .\API\API.csproj --project .\Infrastructure\Infrastructure.csproj
+
+
+dotnet ef database update --startup-project .\API\API.csproj --project .\Infrastructure\Infrastructure.csproj
+

@@ -1,8 +1,10 @@
-using API.Instrumentation;
 using Application;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Infrastructure;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace API
 {
@@ -14,13 +16,16 @@ namespace API
 
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
-            // Call ConfigureContainer on the Host sub property 
-            builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+            builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
             {
-                builder.RegisterModule(new APIModule());
-                builder.RegisterModule(new ApplicationModule());
-                builder.RegisterModule(new InfrastructureModule());
+                containerBuilder.RegisterModule(new APIModule());
+                containerBuilder.RegisterModule(new ApplicationModule());
+                containerBuilder.RegisterModule(new InfrastructureModule());
             });
+
+            // Add modules
+            builder.Services.AddApplication();
+            builder.Services.AddInfrastructure();
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -30,7 +35,7 @@ namespace API
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-
+            
             app.UseDefaultFiles();
             app.UseStaticFiles();
 

@@ -1,5 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using System.Diagnostics;
+using System.Linq;
 
 namespace API.Instrumentation
 {

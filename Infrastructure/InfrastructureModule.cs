@@ -21,9 +21,6 @@ namespace Infrastructure
 
         public void RegisterContext<TContext>(ContainerBuilder builder) where TContext : DbContext
         {
-
-            // builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(connectionString, action => action.MigrationsAssembly("Infrastructure")));
-
             builder.Register(componentContext =>
                 {
                     var serviceProvider = componentContext.Resolve<IServiceProvider>();

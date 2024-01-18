@@ -2,23 +2,15 @@
 
 namespace Domain.Weather
 {
-    public class WeatherSummary : Enumeration
+    public class WeatherSummary : Enumeration<string>
     {
-        private static int index = 0;
-
-        public static WeatherSummary Freezing = new(index++, nameof(Freezing));
-        public static WeatherSummary Bracing = new(index++, nameof(Bracing));
-        public static WeatherSummary Chilly = new(index++, nameof(Chilly));
-        public static WeatherSummary Cool = new(index++, nameof(Cool));
-        public static WeatherSummary Mild = new(index++, nameof(Mild));
-        public static WeatherSummary Warm = new(index++, nameof(Warm));
-        public static WeatherSummary Balmy = new(index++, nameof(Balmy));
-        public static WeatherSummary Hot = new(index++, nameof(Hot));
-        public static WeatherSummary Sweltering = new(index++, nameof(Sweltering));
-        public static WeatherSummary Scorching = new(index++, nameof(Scorching));
+        public static WeatherSummary Chilly = new(nameof(Chilly));
+        public static WeatherSummary Warm = new(nameof(Warm));
+        public static WeatherSummary Hot = new(nameof(Hot));
 
         public WeatherSummary() { }
 
-        public WeatherSummary(int value, string displayName): base(value, displayName) { }
+        public WeatherSummary(string value, string display): base(value, display) { }
+        public WeatherSummary(string display) : base(display, display) { }
     }
 }

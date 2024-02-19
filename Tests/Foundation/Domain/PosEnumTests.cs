@@ -1,10 +1,9 @@
 ﻿using FluentAssertions;
 using Foundation.Domain;
 
-
 namespace Tests.Foundation.Domain
 {
-    internal class Tests
+    internal class PosEnumTests
     {
         public class PosEnum : Enumeration<string>
         {
@@ -15,15 +14,10 @@ namespace Tests.Foundation.Domain
             public PosEnum() { }
             public PosEnum(string value, string display) : base(value, display) { }
             public PosEnum(string display) : base(display, display) { }
-
         }
-
 
         [Test]
-        public void TestEnumeration()
-        {
-            
-        }
+        public void TestEnumeration() { }
 
         [Test]
         public void GetAllWithPosEnumReturnsAllCountries()
@@ -34,7 +28,7 @@ namespace Tests.Foundation.Domain
             var posEnums = Enumeration.GetAll<PosEnum>();
             foreach (var posEnum in posEnums)
             {
-                Console.WriteLine(PosEnum.FromValue<PosEnum>(posEnum.Value));
+                Console.WriteLine(PosEnum.FromKey<PosEnum>(posEnum.Display));
             }
 
             //Assert
@@ -42,23 +36,23 @@ namespace Tests.Foundation.Domain
         }
 
         [Test]
-        public void FromValue_WithPosEnum_ReturnsPosEnum()
-        {
-            //Arrange
-            var PosEnumValue = "US";
-
-            //Act
-            var PosEnum = Enumeration.FromValue<PosEnum>(PosEnumValue);
-
-            //Assert
-            PosEnum.Value.Should().Be(PosEnumValue);
-        }
-
-        [Test]
-        public void FromDisplayName_WithPosEnum_ReturnsPosEnum()
+        public void FromDisplayName_WithLeftPosEnum_ReturnsRightDisplay()
         {
             //Arrange
             var PosEnumValue = "Left";
+
+            //Act
+            var posEnum = PosEnum.FromKey<PosEnum>(PosEnumValue);
+
+            //Assert
+            posEnum.Key.Should().Be(PosEnumValue);
+        }
+
+        [Test]
+        public void FromDisplayName_WithRightPosEnum_ReturnsRightDisplay()
+        {
+            //Arrange
+            var PosEnumValue = "Right";
 
             //Act
             var PosEnum = Enumeration.FromDisplay<PosEnum>(PosEnumValue);
@@ -80,18 +74,5 @@ namespace Tests.Foundation.Domain
         //     PosEnum.Key.Should().Be(PosEnumKey);
         // }
 
-        // [Test]
-        // public void FromKey_WithPosEnumUK_ReturnsDisplay()
-        // {
-        //     //Arrange
-        //     var PosEnumKey = PosEnum.Keys;
-        //     var PosEnumName = "Great Britain";
-        //
-        //     //Act
-        //     var PosEnum = PosEnum.FromKey<PosEnum>(PosEnumKey);
-        //
-        //     //Assert
-        //     PosEnum.Display.Should().Be(PosEnumName);
-        // }
     }
 }

@@ -1,10 +1,13 @@
 using Application;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Foundation.Helpers;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json;
+using Domain.Weather;
 
 namespace API
 {
@@ -13,6 +16,9 @@ namespace API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
+
 
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
@@ -29,6 +35,11 @@ namespace API
 
             // Add services to the container.
             builder.Services.AddControllers();
+
+            builder.Services.ConfigureHttpJsonOptions(options =>
+                {
+                    RegisterConverters(options.SerializerOptions);
+                });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -53,6 +64,11 @@ namespace API
             app.MapFallbackToFile("/index.html");
 
             app.Run();
+        }
+
+        public static void RegisterConverters(JsonSerializerOptions serializerOptions)
+        {
+            serializerOptions.Converters.Add(new EnumerationJsonConverter<WeatherSummary, string>());
         }
     }
 }

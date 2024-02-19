@@ -22,6 +22,8 @@ namespace Infrastructure.Contexts
             optionsBuilder.UseSqlServer(connectionString);
         }
 
+
+
         private IEnumerable<Forecast> SeedForecast() => new List<Forecast>()
             {
                 new(){Id=1, Summary = WeatherSummary.Hot, TemperatureC = 40, Date = DateOnly.Parse("6/1/2023")},
@@ -36,9 +38,9 @@ namespace Infrastructure.Contexts
             modelBuilder.Entity<Forecast>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Summary);
-                //     .HasConversion<string>(c=>c.Value,c=> WeatherSummary.FromKey(c))
-                //     .IsRequired();
+                entity.Property(e => e.Summary)
+                     .HasConversion<string>(c=>c.Key,c=> WeatherSummary.FromKey<WeatherSummary>(c))
+                     .IsRequired();
             });
 
             modelBuilder.Entity<Forecast>().HasData(

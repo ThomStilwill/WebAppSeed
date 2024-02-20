@@ -33,12 +33,11 @@ namespace API
             builder.Services.AddApplication();
             builder.Services.AddInfrastructure();
 
-            // Add services to the container.
-            builder.Services.AddControllers();
 
-            builder.Services.ConfigureHttpJsonOptions(options =>
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
                 {
-                    RegisterConverters(options.SerializerOptions);
+                    RegisterConverters(options.JsonSerializerOptions);
                 });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

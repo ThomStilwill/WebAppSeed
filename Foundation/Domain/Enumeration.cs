@@ -3,21 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace Foundation.Domain
 {
 
     public class Enumeration
     {
-        protected readonly string _display;
         public Enumeration() { }
 
         public Enumeration(string display)
         {
-            _display = display;
+            Display = display;
         }
 
-        public string Display => _display;
+        [JsonIgnore]
+        public string Display { get; }
 
         public override string ToString()
         {
@@ -29,12 +30,9 @@ namespace Foundation.Domain
             var type = typeof(T);
             var fields = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
 
-            //var fields = type.GetFields();
-
             foreach (var info in fields)
             {
                 var instance = new T();
-
                 if (info.GetValue(instance) is T locatedValue)
                 {
                     yield return locatedValue;
@@ -60,21 +58,20 @@ namespace Foundation.Domain
 
     public class Enumeration<TKey> : Enumeration, IComparable where TKey : IComparable
     {
-        protected TKey _key;
-        public TKey Key => _key;
+        public Enumeration() { }
 
-        protected Enumeration() { }
+        public TKey Key { get; }
+
         protected Enumeration(TKey key) : this(key, key.ToString().PascalCaseToWords()) { }
         protected Enumeration(TKey key, string display) : base(display)
         {
-            _key = key;
+            Key = key;
         }
 
         public override int GetHashCode()
         {
-            return _key.GetHashCode();
+            return Key.GetHashCode();
         }
-
 
         public override bool Equals(object obj)
         {
@@ -86,7 +83,7 @@ namespace Foundation.Domain
             }
 
             var typeMatches = GetType().Equals(obj.GetType());
-            var valueMatches = _key.Equals(otherValue.Key);
+            var valueMatches = Key.Equals(otherValue.Key);
 
             return typeMatches && valueMatches;
         }

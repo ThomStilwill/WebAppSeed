@@ -14,8 +14,9 @@ namespace Foundation.Helpers
             return Enumeration<TKey>.FromKey<T>(key);
         }
 
-        public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options) => writer.WriteStringValue(value.ToString());
-        
+        public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString());
+        }
     }
-
 }

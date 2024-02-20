@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text.Json.Serialization;
 
 namespace Foundation.Domain
 {
@@ -17,13 +16,15 @@ namespace Foundation.Domain
             Display = display;
         }
 
-        [JsonIgnore]
         public string Display { get; }
 
         public override string ToString()
         {
             return Display;
         }
+
+        // public static bool operator ==(Enumeration? a, Enumeration? b) => true;
+        // public static bool operator !=(Enumeration? a, Enumeration? b) => false;
 
         public static IEnumerable<T> GetAll<T>() where T : Enumeration, new()
         {
@@ -49,15 +50,19 @@ namespace Foundation.Domain
         {
             var enumerations = GetAll<T>();
             var matchingItem = enumerations.FirstOrDefault(predicate);
-            if (matchingItem != null) return matchingItem;
 
-            var message = string.Format("'{0}' is not a valid {1} in {2}", value, description, typeof(T));
-            throw new ApplicationException(message);
+            return matchingItem;
+            //if (matchingItem != null) return matchingItem;
+
+
+            // var message = string.Format("'{0}' is not a valid {1} in {2}", value, description, typeof(T));
+            // throw new ApplicationException(message);
         }
     }
 
     public class Enumeration<TKey> : Enumeration, IComparable where TKey : IComparable
     {
+
         public Enumeration() { }
 
         public TKey Key { get; }
@@ -67,6 +72,8 @@ namespace Foundation.Domain
         {
             Key = key;
         }
+
+
 
         public override int GetHashCode()
         {

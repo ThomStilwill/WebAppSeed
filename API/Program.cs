@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json;
-using Domain.Weather;
+using Foundation.Domain;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace API
 {
@@ -59,6 +61,14 @@ namespace API
             app.UseHttpsRedirection();
             app.UseAuthorization();
 
+            app.UseExceptionHandler(a => a.Run(async context =>
+            {
+                var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+                var exception = exceptionHandlerPathFeature.Error;
+
+                await context.Response.WriteAsJsonAsync(new { error = exception.Message });
+            }));
+
             app.MapControllers();
             app.MapFallbackToFile("/index.html");
 
@@ -67,7 +77,7 @@ namespace API
 
         public static void RegisterConverters(JsonSerializerOptions serializerOptions)
         {
-            serializerOptions.Converters.Add(new EnumerationJsonConverter<WeatherSummary, string>());
+            serializerOptions.Converters.Add(new EnumerationJsonConverter<Enumeration<string>, string>());
         }
     }
 }

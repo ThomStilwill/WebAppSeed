@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Foundation\Foundation.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Forecast\Commands\" />
-  </ItemGroup>
-
 </Project>

@@ -1,13 +1,13 @@
 using Application;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Foundation.Helpers;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json;
-using Foundation.Domain;
+using Domain.Weather;
+using Foundation.Helpers;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 
@@ -18,8 +18,6 @@ namespace API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-
 
 
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
@@ -77,7 +75,8 @@ namespace API
 
         public static void RegisterConverters(JsonSerializerOptions serializerOptions)
         {
-            serializerOptions.Converters.Add(new EnumerationJsonConverter<Enumeration<string>, string>());
+            serializerOptions.Converters.Add(new DateFormatConverter());
+            serializerOptions.Converters.Add(new EnumerationJsonConverter<WeatherSummary,string>());
         }
     }
 }

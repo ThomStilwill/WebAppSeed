@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
+using Foundation.Application.Abstractions;
 using Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -16,6 +17,8 @@ namespace Infrastructure
         {
             var assembly = Assembly.GetExecutingAssembly();
             builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("Repository")).AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("UnitOfWork")).AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
             RegisterContext<ApplicationDbContext>(builder);
         }
 

@@ -1,8 +1,11 @@
 ﻿using Foundation.Domain;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Domain.Location
 {
-    public class State : Enumeration<string>
+    public class State : Enumeration<State,string>
     {
         public static State STX = new(nameof(State.STX), "St. Croix");
         public static State NJ = new(nameof(State.NJ),"New Jersey", Region.NE);
@@ -22,6 +25,16 @@ namespace Domain.Location
 
         public Region Region { get; set; }
 
+        public static IEnumerable<State> GetByRegion(string regionCode = null)
+        {
+            Region region = null;
+            if (!string.IsNullOrEmpty(regionCode))
+            {
+                region = Region.FromKey(regionCode);
+                if (region == null) throw new ApplicationException("Invalid Region code.");
+            }
 
+            return GetAll().Where(s => s!.Region == region);
+        }
     }
 }

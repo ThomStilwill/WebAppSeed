@@ -5,16 +5,18 @@ using Foundation.Domain;
 
 namespace Foundation.Helpers
 {
-    public class EnumerationJsonConverter<T,TKey> : JsonConverter<T> where T : Enumeration<TKey>, new() 
-                                                                     where TKey : IComparable
+    public class EnumerationJsonConverter<TEnum,TKey>: JsonConverter<TEnum> 
+       where TEnum: Enumeration<TEnum,TKey>, new()
+       where TKey : IEquatable<TKey>, IComparable<TKey>
     {
-        public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override TEnum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var key = GenericConverter.ChangeType<TKey>(reader.GetString()!);
-            return Enumeration<TKey>.FromKey<T>(key);
+            var fromKey = Enumeration<TEnum, TKey>.FromKey(key);
+            return fromKey;
         }
-
-        public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    
+        public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
         {
             writer.WriteStringValue(value.ToString());
         }

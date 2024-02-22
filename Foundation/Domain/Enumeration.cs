@@ -1,108 +1,91 @@
-﻿using pipeline.helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Foundation.Helpers;
 
 namespace Foundation.Domain
 {
+    // Attribution: https://github.com/ardalis/SmartEnum
 
-    public class Enumeration
+    public abstract class Enumeration<TEnum,TKey> : IEnumeration<TKey>,
+        IEquatable<Enumeration<TEnum, TKey>>,
+        IComparable<Enumeration<TEnum, TKey>>
+        where TEnum : Enumeration<TEnum, TKey>, new()
+        where TKey : IEquatable<TKey>, IComparable<TKey>
     {
+        public TKey Key { get; }
+        public string Display { get; }
+
         public Enumeration() { }
 
-        public Enumeration(string display)
+        protected Enumeration(TKey key) : this(key, key.ToString().PascalCaseToWords()) { }
+
+        protected Enumeration(TKey key, string display) 
         {
+            Key = key;
             Display = display;
         }
-
-        public string Display { get; }
 
         public override string ToString()
         {
             return Display;
         }
 
-        // public static bool operator ==(Enumeration? a, Enumeration? b) => true;
-        // public static bool operator !=(Enumeration? a, Enumeration? b) => false;
-
-        public static IEnumerable<T> GetAll<T>() where T : Enumeration, new()
+        public override int GetHashCode()
         {
-            var type = typeof(T);
+            return Key.GetHashCode();
+        }
+
+        public static IEnumerable<TEnum> GetAll()
+        {
+            var type = typeof(TEnum);
             var fields = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
 
             foreach (var info in fields)
             {
-                var instance = new T();
-                if (info.GetValue(instance) is T locatedValue)
+                var instance = new TEnum();
+                if (info.GetValue(instance) is TEnum locatedValue)
                 {
                     yield return locatedValue;
                 }
             }
         }
 
-        public static T FromDisplay<T>(string display) where T : Enumeration, new()
+        public static TEnum? FromKey(TKey key)
         {
-            return Parse<T, string>(display, "display", item => item.Display == display);
+            return Parse(item => item.Key.Equals(key));
         }
 
-        protected static T Parse<T, K>(K value, string description, Func<T, bool> predicate) where T : Enumeration, new()
+        public static TEnum? FromDisplay(string display)
         {
-            var enumerations = GetAll<T>();
-            var matchingItem = enumerations.FirstOrDefault(predicate);
-
-            return matchingItem;
-            //if (matchingItem != null) return matchingItem;
-
-
-            // var message = string.Format("'{0}' is not a valid {1} in {2}", value, description, typeof(T));
-            // throw new ApplicationException(message);
-        }
-    }
-
-    public class Enumeration<TKey> : Enumeration, IComparable where TKey : IComparable
-    {
-
-        public Enumeration() { }
-
-        public TKey Key { get; }
-
-        protected Enumeration(TKey key) : this(key, key.ToString().PascalCaseToWords()) { }
-        protected Enumeration(TKey key, string display) : base(display)
-        {
-            Key = key;
+            return Parse(item => item.Display == display);
         }
 
-
-
-        public override int GetHashCode()
+        protected static TEnum? Parse(Func<TEnum, bool> predicate)
         {
-            return Key.GetHashCode();
+            var enumerations = GetAll();
+            return enumerations.FirstOrDefault<TEnum>(predicate);
         }
 
-        public override bool Equals(object obj)
+        bool IEquatable<Enumeration<TEnum, TKey>>.Equals(Enumeration<TEnum, TKey>? enumeration)
         {
-            var otherValue = obj as Enumeration<TKey>;
+            var otherValue = enumeration as Enumeration<TEnum, TKey>;
 
             if (otherValue == null)
             {
                 return false;
             }
 
-            var typeMatches = GetType().Equals(obj.GetType());
+            var typeMatches = GetType().Equals(enumeration.GetType());
             var valueMatches = Key.Equals(otherValue.Key);
 
             return typeMatches && valueMatches;
         }
 
-        public int CompareTo(object other)
+    int IComparable<Enumeration<TEnum, TKey>>.CompareTo(Enumeration<TEnum, TKey>? enumeration)
         {
-            return Key.CompareTo(((Enumeration<TKey>)other).Key);
-        }
-
-        public static T FromKey<T>(TKey key) where T : Enumeration<TKey>, new()
-        {
-            return Parse<T, TKey>(key, "key", item => item.Key.Equals(key));
+            return Key.CompareTo(enumeration.Key);
         }
     }
 }

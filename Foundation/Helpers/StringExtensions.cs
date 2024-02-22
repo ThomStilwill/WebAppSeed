@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace pipeline.helpers
+namespace Foundation.Helpers
 {
     public static class StringExtensions
     {

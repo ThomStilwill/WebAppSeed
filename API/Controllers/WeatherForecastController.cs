@@ -20,10 +20,17 @@ namespace API.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet(Name = "Forecast")]
         public async Task<IEnumerable<Forecast>> Get()
         {
             return await weatherOrchestrator.GetWeather();
         }
+
+        [HttpPost(Name = "Forecast")]
+        public async Task Post([FromBody] Forecast forecast)
+        {
+            await weatherOrchestrator.CreateForecast(forecast);
+        }
+
     }
 }

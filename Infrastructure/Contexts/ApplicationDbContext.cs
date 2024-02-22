@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Domain.Weather;
-using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Contexts
 {
@@ -22,8 +21,6 @@ namespace Infrastructure.Contexts
             optionsBuilder.UseSqlServer(connectionString);
         }
 
-
-
         private IEnumerable<Forecast> SeedForecast() => new List<Forecast>()
             {
                 new(){Id=1, Summary = WeatherSummary.Hot, TemperatureC = 40, Date = DateOnly.Parse("6/1/2023")},
@@ -39,7 +36,7 @@ namespace Infrastructure.Contexts
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Summary)
-                     .HasConversion<string>(c=>c.Key,c=> WeatherSummary.FromKey<WeatherSummary>(c))
+                     .HasConversion<string>(c=>c.Key,c=> WeatherSummary.FromKey(c))
                      .IsRequired();
             });
 

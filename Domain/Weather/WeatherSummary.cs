@@ -2,7 +2,7 @@
 
 namespace Domain.Weather
 {
-    public class WeatherSummary : Enumeration<string>
+    public class WeatherSummary : Enumeration<WeatherSummary,string>
     {
         public static WeatherSummary Chilly = new(nameof(Chilly));
         public static WeatherSummary Warm = new(nameof(Warm));

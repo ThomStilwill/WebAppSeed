@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Application.Forecast.Queries;
+using Application.Weather.Commands;
+using Application.Weather.Queries;
 using Domain.Weather;
 using MediatR;
 
@@ -10,7 +11,6 @@ namespace API.Orchestrators
     {
         private readonly IMediator _mediator;
 
-
         public WeatherOrchestrator(IMediator mediator)
         {
             _mediator = mediator;
@@ -18,11 +18,16 @@ namespace API.Orchestrators
 
         public async Task<IEnumerable<Forecast>> GetWeather()
         {
-
             var request = new GetForecasts();
             var results = await _mediator.Send(request);
             return results;
         }
-     
+
+        public async Task CreateForecast(Forecast forecast)
+        {
+            var request = new CreateForecastCommand();
+            request.forecast = forecast;
+            await _mediator.Send(request);
+        }
     }
 }

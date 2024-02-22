@@ -1,8 +1,9 @@
-﻿
+﻿using Foundation.Application.Abstractions;
+using Domain.Weather;
 
 namespace Application.Abstractions
 {
-    public interface IForecastRepository : ICommonRepository<Domain.Weather.Forecast>
+    public interface IForecastRepository : IRepository<Forecast>
     {
        
     }

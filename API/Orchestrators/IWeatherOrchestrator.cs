@@ -7,4 +7,5 @@ namespace API.Orchestrators;
 public interface IWeatherOrchestrator
 {
     Task<IEnumerable<Forecast>> GetWeather();
+    Task CreateForecast(Forecast forecast);
 }

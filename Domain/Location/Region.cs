@@ -2,7 +2,7 @@
 
 namespace Domain.Location
 {
-    public class Region : Enumeration<string>
+    public class Region : Enumeration<Region,string>
     {
         public static Region USVI = new(nameof(Region.USVI), "US Virgin Islands");
         public static Region NE = new(nameof(Region.NE),"North East");

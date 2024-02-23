@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 using Application;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -45,7 +47,7 @@ namespace API
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-            
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
@@ -78,5 +80,6 @@ namespace API
             serializerOptions.Converters.Add(new DateFormatConverter());
             serializerOptions.Converters.Add(new EnumerationJsonConverter<WeatherSummary,string>());
         }
+      
     }
 }

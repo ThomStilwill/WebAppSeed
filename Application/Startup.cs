@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Foundation.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
@@ -10,10 +11,12 @@ namespace Application
             var assembly = typeof(Startup).Assembly;
 
             services.AddMediatR(configuration =>
-                configuration.RegisterServicesFromAssembly(assembly));
+            {
+                configuration.RegisterServicesFromAssembly(assembly);
+                configuration.RegisterServicesFromAssembly(typeof(ICommand).Assembly);
+            });
 
             services.AddValidatorsFromAssembly(assembly);
-
             return services;
         }
     }

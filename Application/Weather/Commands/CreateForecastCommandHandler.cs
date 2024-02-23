@@ -1,9 +1,9 @@
-﻿using Application.Abstractions;
-using MediatR;
+﻿using MediatR;
 using System.Threading.Tasks;
 using System.Threading;
 using Domain.Weather;
 using Foundation.Application.Abstractions;
+using Foundation.Infrastructure;
 
 namespace Application.Weather.Commands
 {
@@ -21,7 +21,6 @@ namespace Application.Weather.Commands
         public async Task Handle(CreateForecastCommand request, CancellationToken cancellationToken)
         {
             _repository.Add(request.forecast);
-            _unitOfWork.Commit();
         }
     }
 }

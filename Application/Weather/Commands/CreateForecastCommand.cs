@@ -1,10 +1,7 @@
 ﻿using Domain.Weather;
-using MediatR;
+using Foundation.Infrastructure.Commands;
 
 namespace Application.Weather.Commands
 {
-    public class CreateForecastCommand : IRequest
-    {
-        public Forecast forecast;
-    }
+    public record CreateForecastCommand(Forecast forecast) : CommandBase { }
 }

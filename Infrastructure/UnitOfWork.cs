@@ -10,8 +10,8 @@ namespace Infrastructure
 
     public class UnitOfWork : IUnitOfWork
     {
-        private ApplicationDbContext _context;
-        private Dictionary<Type, object> _repositories;
+        private readonly ApplicationDbContext _context;
+        private readonly Dictionary<Type, object> _repositories;
 
         public UnitOfWork(ApplicationDbContext context)
         {

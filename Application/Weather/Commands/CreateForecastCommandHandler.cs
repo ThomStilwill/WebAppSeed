@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Threading;
 using Domain.Weather;
 using Foundation.Application.Abstractions;
-using Foundation.Infrastructure;
 
 namespace Application.Weather.Commands
 {

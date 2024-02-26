@@ -25,8 +25,7 @@ namespace API.Orchestrators
 
         public async Task CreateForecast(Forecast forecast)
         {
-            var request = new CreateForecastCommand();
-            request.forecast = forecast;
+            var request = new CreateForecastCommand(forecast);
             await _mediator.Send(request);
         }
     }

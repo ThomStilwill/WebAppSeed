@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Foundation.Application.Abstractions;
-using Foundation.Infrastructure.Commands;
+using Foundation.Mediator.Commands;
 using MediatR;
 
-namespace Foundation.Infrastructure
+namespace Foundation.Mediator
 {
     public class UnitOfWorkCommandHandlerDecorator<TCommand> : ICommandHandler<TCommand>
         where TCommand : ICommand

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Foundation.Infrastructure.Commands
+namespace Foundation.Mediator.Commands
 {
     public interface ICommand : IRequest { }
     public interface ICommand<out TResult> : IRequest<TResult> { }

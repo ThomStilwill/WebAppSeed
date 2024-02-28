@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Foundation.Infrastructure.Queries
+namespace Foundation.Mediator.Queries
 {
     public interface IQuery<out TResult> : IRequest<TResult>
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using MediatR;
 
-namespace Foundation.Infrastructure
+namespace Foundation.Mediator
 {
 
     internal interface IIdentifiableRequest : IRequest

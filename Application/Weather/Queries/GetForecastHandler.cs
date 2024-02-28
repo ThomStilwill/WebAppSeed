@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Weather;
 using Foundation.Application.Abstractions;
-using Foundation.Infrastructure.Queries;
+using Foundation.Mediator.Queries;
 
 namespace Application.Weather.Queries
 {

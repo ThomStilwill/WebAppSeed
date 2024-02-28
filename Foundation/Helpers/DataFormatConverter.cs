@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Foundation.Helpers
 {
-    public class DateFormatConverter : JsonConverter<DateOnly>
+    public class DateFormatJsonConverter : JsonConverter<DateOnly>
     {
         public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {

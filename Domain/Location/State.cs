@@ -5,23 +5,30 @@ using System.Linq;
 
 namespace Domain.Location
 {
-    public class State : Enumeration<State,string>
+    public class State : Enumeration<State,State.Keys,string>
     {
-        public static State STX = new(nameof(State.STX), "St. Croix");
-        public static State NJ = new(nameof(State.NJ),"New Jersey", Region.NE);
-        public static State CA = new(nameof(State.CA),"California");
-        public static State CT = new(nameof(State.CT),"Connecticut", Region.NE);
-        public static State TX = new(nameof(State.TX), "Texas");
+        public enum Keys
+        {
+            STX,
+            NJ,
+            CA,
+            CT,
+            TX
+        }
+
+        public static State STX = new(Keys.STX,nameof(Keys.STX), "St. Croix");
+        public static State NJ = new(Keys.NJ, nameof(Keys.NJ), "New Jersey", Region.NE);
+        public static State CA = new(Keys.CA, nameof(Keys.CA), "California");
+        public static State CT = new(Keys.CT, nameof(Keys.CT), "Connecticut", Region.NE);
+        public static State TX = new(Keys.TX, nameof(Keys.TX), "Texas");
 
         public State() { }
-
-        public State(string key, string display, Region region) : base(key, display)
+        public State(Keys key) : base(key) { }
+        public State(Keys key,string value, string display) : base(key, value, display) { }
+        public State(Keys key, string value, string display, Region region) : base(key, value, display)
         {
             Region = region;
-
         }
-        public State(string key, string display) : base(key, display) { }
-        public State(string display) : base(display, display) { }
 
         public Region Region { get; set; }
 
@@ -30,7 +37,7 @@ namespace Domain.Location
             Region region = null;
             if (!string.IsNullOrEmpty(regionCode))
             {
-                region = Region.FromKey(regionCode);
+                region = Region.FromValue(regionCode);
                 if (region == null) throw new ApplicationException("Invalid Region code.");
             }
 

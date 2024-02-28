@@ -2,7 +2,7 @@
 
 namespace Infrastructure
 {
-    public static class Startup
+    public static class InfrastructureStart
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {

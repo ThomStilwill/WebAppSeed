@@ -28,5 +28,11 @@ namespace API.Orchestrators
             var request = new CreateForecastCommand(forecast);
             await _mediator.Send(request);
         }
+
+        public async Task DeleteForecast(int id)
+        {
+            var request = new DeleteForecastCommand(id);
+            await _mediator.Send(request);
+        }
     }
 }

@@ -1,4 +1,16 @@
+Attributions
 
+Enumeration: https://github.com/ardalis/SmartEnum
+Unit of Work pipeline: https://github.com/LeftTwixWand/ModernCQRS/tree/master
+Clean Architecture w/ CQRS:  https://medium.com/@edin.sahbaz/a-demo-on-clean-architecture-with-cqrs-and-repository-pattern-in-net-web-api-986838191e74
+
+
+
+Milan Jovanivic Clean Architeecture: https://www.milanjovanovic.tech/pragmatic-clean-architecture?utm_source=YouTube&utm_medium=description&utm_campaign=youtube-description
+
+
+
+--------------------------
 
 To initialize EF Database:
 
@@ -14,4 +26,6 @@ dotnet ef migrations add {migration name} --startup-project .\API\API.csproj --p
 
 
 dotnet ef database update --startup-project .\API\API.csproj --project .\Infrastructure\Infrastructure.csproj
+
+
 

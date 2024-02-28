@@ -36,7 +36,7 @@ namespace Infrastructure.Contexts
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Summary)
-                     .HasConversion<string>(c=>c.Key,c=> WeatherSummary.FromKey(c))
+                     .HasConversion<string>(c=>c.Value,c=> WeatherSummary.FromValue(c))
                      .IsRequired();
             });
 

@@ -32,5 +32,10 @@ namespace API.Controllers
             await weatherOrchestrator.CreateForecast(forecast);
         }
 
+        [HttpDelete(Name = "Forecast")]
+        public async Task Delete(int id)
+        {
+            await weatherOrchestrator.DeleteForecast(id);
+        }
     }
 }

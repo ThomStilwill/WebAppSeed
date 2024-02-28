@@ -1,10 +1,8 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using API.Instrumentation;
+using API.Middleware;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
-using Infrastructure.Contexts;
-using Microsoft.EntityFrameworkCore;
 using Module = Autofac.Module;
 
 namespace API
@@ -22,6 +20,8 @@ namespace API
                 .EnableInterfaceInterceptors()
                 .InterceptedBy(typeof(LoggerIntercepter))
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<ExceptionHandlingMiddleware>().AsSelf();
         }
     }
 }

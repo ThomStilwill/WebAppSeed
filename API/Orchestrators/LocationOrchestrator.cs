@@ -11,7 +11,7 @@ namespace API.Orchestrators
         {
             return await Task.Run(() =>
             {
-                return State.GetByRegion(regionCode).Select(x=>x.Key);
+                return State.GetByRegion(regionCode).Select(x=>x.Value);
             });
         }
     }

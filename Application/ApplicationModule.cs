@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Autofac;
-using Foundation.Infrastructure;
+using Foundation.Mediator;
+using Foundation.Mediator.Behaviors;
 using MediatR;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using MediatR.Extensions.Autofac.DependencyInjection.Builder;
@@ -10,11 +11,9 @@ namespace Application
 {
     public class ApplicationModule: Module
     {
-
         protected override void Load(ContainerBuilder builder)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("Service")).AsImplementedInterfaces().InstancePerLifetimeScope();
 
             var configuration = MediatRConfigurationBuilder
                 .Create(assembly)
@@ -23,14 +22,19 @@ namespace Application
 
             builder.RegisterMediatR(configuration);
 
-            builder.RegisterGenericDecorator(
-                typeof(UnitOfWorkCommandHandlerDecorator<>),
-                typeof(IRequestHandler<>));
+            builder.RegisterAssemblyTypes(assembly)
+                   .Where(t => t.Name.EndsWith("Service"))
+                   .AsImplementedInterfaces()
+                   .InstancePerLifetimeScope();
+            
+            builder.RegisterAssemblyTypes(assembly)
+                   .AsClosedTypesOf(typeof(IRequestHandler<,>));
 
-            builder.RegisterGenericDecorator(
-                typeof(UnitOfWorkCommandHandlerDecorator<,>),
-                typeof(IRequestHandler<,>));
+            builder.RegisterGenericDecorator(typeof(UnitOfWorkCommandHandlerDecorator<>),
+                                    typeof(IRequestHandler<>));
 
+            builder.RegisterGeneric(typeof(ValidationBehavior<,>))
+                   .As(typeof(IPipelineBehavior<,>));
         }
     }
 }

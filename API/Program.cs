@@ -1,5 +1,3 @@
-using System;
-using System.Reflection;
 using Application;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -12,6 +10,8 @@ using Domain.Weather;
 using Foundation.Helpers;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.OpenApi.Models;
+using API.Middleware;
 
 namespace API
 {
@@ -21,7 +21,11 @@ namespace API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Register modules
+            builder.Services.AddApplication();
+            builder.Services.AddInfrastructure();
 
+            // Configure DI
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
@@ -31,10 +35,7 @@ namespace API
                 containerBuilder.RegisterModule(new InfrastructureModule());
             });
 
-            // Add modules
-            builder.Services.AddApplication();
-            builder.Services.AddInfrastructure();
-
+            
 
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
@@ -44,7 +45,16 @@ namespace API
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.UseInlineDefinitionsForEnums();
+                c.SwaggerDoc("v1",new OpenApiInfo()
+                {
+                    Version = "V1",
+                    Title = "DDD Clean Architecture Application Seed/Sandbox",
+                    Description = "My place to figure stuff out."
+                });
+            });
 
             var app = builder.Build();
 
@@ -72,13 +82,15 @@ namespace API
             app.MapControllers();
             app.MapFallbackToFile("/index.html");
 
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+
             app.Run();
         }
 
         public static void RegisterConverters(JsonSerializerOptions serializerOptions)
         {
-            serializerOptions.Converters.Add(new DateFormatConverter());
-            serializerOptions.Converters.Add(new EnumerationJsonConverter<WeatherSummary,string>());
+            serializerOptions.Converters.Add(new DateFormatJsonConverter());
+            serializerOptions.Converters.Add(new EnumerationJsonConverter<WeatherSummary, WeatherSummary.Keys, string>());
         }
       
     }

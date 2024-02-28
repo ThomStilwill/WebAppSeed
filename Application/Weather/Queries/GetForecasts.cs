@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Domain.Weather;
-using Foundation.Infrastructure.Queries;
+using Foundation.Mediator.Queries;
 using MediatR;
 
 namespace Application.Weather.Queries

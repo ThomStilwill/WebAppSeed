@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Foundation.Infrastructure.Commands
+namespace Foundation.Mediator.Commands
 {
     internal interface ICommandHandler<in TCommand> : IRequestHandler<TCommand>
         where TCommand : ICommand { }

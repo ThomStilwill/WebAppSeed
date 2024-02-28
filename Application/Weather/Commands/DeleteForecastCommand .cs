@@ -3,5 +3,5 @@ using Foundation.Mediator.Commands;
 
 namespace Application.Weather.Commands
 {
-    public record CreateForecastCommand(Forecast forecast) : CommandBase { }
+    public record DeleteForecastCommand(int id) : CommandBase { }
 }

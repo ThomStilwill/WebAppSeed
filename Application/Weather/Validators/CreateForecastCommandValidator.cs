@@ -10,16 +10,14 @@ namespace Application.Weather.Validators
         public CreateForecastCommandValidator()
         {
             RuleFor(command => command.forecast.Summary)
-                .NotEmpty()
-                .WithMessage("The summary can't be empty.");
+                .NotEmpty().WithMessage("The summary can't be empty.");
 
             RuleFor(command => command.forecast.TemperatureC)
-                .NotEmpty()
-                .WithMessage("The temperature can't be empty.");
+                .NotEmpty().WithMessage("The temperature can't be empty.")
+                .Must(temp => temp>0).WithMessage("Temperature must be greater than zero.");
 
             RuleFor(command => command.forecast.Date)
-                .NotNull()
-                .WithMessage("The date can't be empty.");
+                .NotNull().WithMessage("The date can't be empty.");
 
             RuleFor(command => command.forecast.Summary)
                 .Must(summary => summary != WeatherSummary.Cold)

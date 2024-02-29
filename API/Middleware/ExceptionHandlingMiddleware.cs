@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System;
+using Application.Exceptions;
 using Application.Exceptions.Domain.Exceptions;
-using FluentValidation;
+using ApplicationException = System.ApplicationException;
 
 namespace API.Middleware
 {
@@ -60,7 +61,7 @@ namespace API.Middleware
         private static string GetTitle(Exception exception) =>
             exception switch
             {
-                ApplicationException applicationException => applicationException.Source,
+                ApplicationException applicationException => applicationException.Message,
                 _ => "Server Error"
             };
 
@@ -70,7 +71,7 @@ namespace API.Middleware
 
             if (exception is ValidationException validationException)
             {
-                //errors = validationException.Errors;
+                errors = validationException.ErrorsDictionary;
             }
 
             return errors;

@@ -2,8 +2,8 @@
 
 namespace Foundation.Mediator.Queries
 {
-    public interface IQueryHandler<in TQuery, TResult> : IRequestHandler<TQuery, TResult>
-        where TQuery : IQuery<TResult>
+    public interface IQueryHandler<in TQuery, TResponse> : IRequestHandler<TQuery, TResponse>
+        where TQuery : IQuery<TResponse>
     {
     }
 }

@@ -35,8 +35,6 @@ namespace API
                 containerBuilder.RegisterModule(new InfrastructureModule());
             });
 
-            
-
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
                 {

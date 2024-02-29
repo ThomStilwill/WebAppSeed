@@ -1,12 +1,12 @@
-﻿using MediatR;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Threading;
 using Domain.Weather;
 using Foundation.Application.Abstractions;
+using Foundation.Mediator.Commands;
 
 namespace Application.Weather.Commands
 {
-    internal class CreateForecastCommandHandler : IRequestHandler<CreateForecastCommand>
+    internal class CreateForecastCommandHandler : ICommandHandler<CreateForecastCommand,bool>
     {
         private readonly IRepository<Forecast> _repository;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,9 +17,10 @@ namespace Application.Weather.Commands
             _repository = _unitOfWork.GetRepository<Forecast>();
         }
 
-        public async Task Handle(CreateForecastCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateForecastCommand request, CancellationToken cancellationToken)
         {
             _repository.Add(request.forecast);
+            return true;
         }
     }
 }

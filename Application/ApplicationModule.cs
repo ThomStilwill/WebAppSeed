@@ -30,11 +30,9 @@ namespace Application
             builder.RegisterAssemblyTypes(assembly)
                    .AsClosedTypesOf(typeof(IRequestHandler<,>));
 
-            builder.RegisterGenericDecorator(typeof(UnitOfWorkCommandHandlerDecorator<>),
-                                    typeof(IRequestHandler<>));
+            builder.RegisterGenericDecorator(typeof(UnitOfWorkCommandHandlerDecorator<>),typeof(IRequestHandler<>));
 
-            builder.RegisterGeneric(typeof(ValidationBehavior<,>))
-                   .As(typeof(IPipelineBehavior<,>));
+            builder.RegisterGeneric(typeof(ValidationBehavior<,>)).As(typeof(IPipelineBehavior<,>));
         }
     }
 }

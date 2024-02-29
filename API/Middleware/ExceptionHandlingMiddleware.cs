@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System;
+using Application.Exceptions.Domain.Exceptions;
 using FluentValidation;
 
 namespace API.Middleware
@@ -50,8 +51,8 @@ namespace API.Middleware
         private static int GetStatusCode(Exception exception) =>
             exception switch
             {
-                // BadRequestException => StatusCodes.Status400BadRequest,
-                // NotFoundException => StatusCodes.Status404NotFound,
+                BadRequestException => StatusCodes.Status400BadRequest,
+                NotFoundException => StatusCodes.Status404NotFound,
                 ValidationException => StatusCodes.Status400BadRequest,
                 _ => StatusCodes.Status500InternalServerError
             };

@@ -3,12 +3,9 @@ Attributions
 Enumeration: https://github.com/ardalis/SmartEnum
 Unit of Work pipeline: https://github.com/LeftTwixWand/ModernCQRS/tree/master
 Clean Architecture w/ CQRS:  https://medium.com/@edin.sahbaz/a-demo-on-clean-architecture-with-cqrs-and-repository-pattern-in-net-web-api-986838191e74
-
-
-
 Milan Jovanivic Clean Architeecture: https://www.milanjovanovic.tech/pragmatic-clean-architecture?utm_source=YouTube&utm_medium=description&utm_campaign=youtube-description
-
-
+Mediatr + FluentValidation: https://mikolaj-kaminski.com/elegant-command-query-validation-mediatr-fluentvalidation/
+Handling Exceptions: https://code-maze.com/cqrs-mediatr-fluentvalidation/
 
 --------------------------
 

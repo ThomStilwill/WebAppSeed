@@ -2,7 +2,7 @@
 
 namespace Foundation.Mediator.Queries
 {
-    public interface IQuery<out TResult> : IRequest<TResult>
+    public interface IQuery<out TResponse> : IRequest<TResponse>
     {
     }
 }
